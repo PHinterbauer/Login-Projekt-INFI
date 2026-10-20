@@ -423,7 +423,7 @@ def reset():
             except (KeyError, OSError, RuntimeError, smtplib.SMTPException):
                 app.logger.exception("Reset email failed")
         flash("Wenn die E-Mail existiert, wurde ein Reset-Link versendet.")
-    return page("<h2>Passwort zurücksetzen</h2><form method='post'><label>E-Mail<input type='email' name='email' required></label><button>Link anfordern</button></form>")
+    return page("<h2>Passwort zurücksetzen</h2><form method='post'><label>E-Mail<input type='email' name='email' required></label><button>Link anfordern</button></form><p><a href='/'>Zurück zur Anmeldung</a></p>")
 
 @app.route("/reset-password", methods=["GET", "POST"])
 def reset_password():
@@ -439,7 +439,7 @@ def reset_password():
             flash("Passwort geändert.")
             return redirect(url_for("login"))
         flash("Der Link ist ungültig oder das Passwort zu kurz.")
-    body = "<h2>Neues Passwort</h2><form method='post' onsubmit='return protect(this)'><input type='hidden' name='token' value='" + str(escape(token)) + "'><label>Passwort<input type='password' name='password' minlength='8' required></label><button>Speichern</button></form>" + PASSWORD_SCRIPT
+    body = "<h2>Neues Passwort</h2><form method='post' onsubmit='return protect(this)'><input type='hidden' name='token' value='" + str(escape(token)) + "'><label>Passwort<input type='password' name='password' minlength='8' required></label><button>Speichern</button></form><p><a href='/'>Zurück zur Anmeldung</a></p>" + PASSWORD_SCRIPT
     return page(body)
 
 wipe_database_on_start()

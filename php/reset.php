@@ -16,5 +16,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     flash('Wenn die E-Mail existiert, wurde ein Reset-Link versendet.');
 }
-page('<h2>Passwort zurücksetzen</h2><form method="post"><input type="hidden" name="csrf" value="'.h(csrf()).'"><label>E-Mail<input type="email" name="email" required></label><button>Link anfordern</button></form>');
+page('<h2>Passwort zurücksetzen</h2><form method="post"><input type="hidden" name="csrf" value="'.h(csrf()).'"><label>E-Mail<input type="email" name="email" required></label><button>Link anfordern</button></form><p><a href="index.php">Zurück zur Anmeldung</a></p>');
 ?>

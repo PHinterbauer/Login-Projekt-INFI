@@ -14,5 +14,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     flash('Der Link ist ungültig oder das Passwort zu kurz.');
 }
 $script = '<script>async function protect(form){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(form.password.value));form.password.value=Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,"0")).join("");return true}</script>';
-page('<h2>Neues Passwort</h2><form method="post" onsubmit="return protect(this)"><input type="hidden" name="csrf" value="'.h(csrf()).'"><input type="hidden" name="token" value="'.h($token).'" ><label>Passwort<input type="password" name="password" minlength="8" required></label><button>Speichern</button></form>'.$script);
+page('<h2>Neues Passwort</h2><form method="post" onsubmit="return protect(this)"><input type="hidden" name="csrf" value="'.h(csrf()).'"><input type="hidden" name="token" value="'.h($token).'" ><label>Passwort<input type="password" name="password" minlength="8" required></label><button>Speichern</button></form><p><a href="index.php">Zurück zur Anmeldung</a></p>'.$script);
 ?>
