@@ -2,7 +2,11 @@
   <img src="https://img.shields.io/badge/Login--Projekt-Secure%20Auth-1464a0?style=for-the-badge" alt="Login-Projekt" />
 </p>
 
-<h1 align="center">Login-Projekt</h1>
+<h1 align="center">Login-Projekt-INFI</h1>
+
+<p align="center">
+  Repository: <a href="https://github.com/PHinterbauer/Login-Projekt-INFI">github.com/PHinterbauer/Login-Projekt-INFI</a>
+</p>
 
 <p align="center">
   <strong>Eine elegante, mehrstufige Login-Anwendung mit Flask, PHP und SQLite.</strong>
@@ -65,6 +69,9 @@ Registrierung, Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten
 
 - XAMPP mit Apache
 - PHP mit `pdo_sqlite` und `sqlite3`
+
+> Hinweis: Es wird **kein npm/Node.js** benötigt. Python-Abhängigkeiten werden
+> über `pip` installiert, die PHP-Version läuft direkt unter XAMPP.
 
 ---
 
@@ -172,6 +179,27 @@ from = deine-adresse@example.com
 
 Für Sicherheitsstufe 2 und Passwort-Reset werden gültige SMTP-Daten benötigt.
 Bei vielen Mail-Anbietern ist dafür ein App-Passwort erforderlich.
+
+### SMTP mit Mailtrap testen
+
+Für lokale Tests eignet sich [Mailtrap](https://mailtrap.io/). So richtest du es ein:
+
+1. Erstelle ein kostenloses Mailtrap-Konto und öffne dein **Email Testing**-Inbox.
+2. Kopiere die SMTP-Zugangsdaten (Host, Port, Username, Password) aus der Inbox.
+3. Trage sie in `config.ini` ein:
+
+```ini
+[mail]
+host = sandbox.smtp.mailtrap.io
+port = 587
+security = starttls
+user = dein-mailtrap-username
+password = dein-mailtrap-passwort
+from = test@example.com
+```
+
+4. Starte die App neu und löse einen Login (Stufe 2) oder einen Passwort-Reset aus.
+5. Die versendeten E-Mails erscheinen in deinem Mailtrap-Inbox, ohne echte Empfänger zu belästigen.
 
 > Wichtig: `config.ini`, SMTP-Passwörter und geheime Schlüssel dürfen nicht
 > veröffentlicht oder in Git eingecheckt werden.
