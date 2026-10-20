@@ -23,16 +23,17 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "login.sqlite3")
 CONFIG_PATH = os.path.join(BASE_DIR, "config.ini")
 
-
 def read_config():
-    """Read editable local settings from config.ini."""
+    """Read editable local settings from config.ini.
+
+    Returns:
+        configparser.ConfigParser: The parsed configuration.
+    """
     config = configparser.ConfigParser()
     config.read(CONFIG_PATH, encoding="utf-8")
     return config
 
-
 CONFIG = read_config()
-
 
 def reset_auth_level_on_start():
     """Always start the application with the basic login security level."""
@@ -42,7 +43,6 @@ def reset_auth_level_on_start():
     with open(CONFIG_PATH, "w", encoding="utf-8") as config_file:
         CONFIG.write(config_file)
 
-
 reset_auth_level_on_start()
 AUTH_LEVEL = 1
 LOGIN_MINUTES = 15
@@ -51,6 +51,7 @@ RESET_MINUTES = 15
 
 app = Flask(__name__)
 app.secret_key = CONFIG.get("app", "flask_secret", fallback="change-me-before-production")
+
 
 PAGE = """<!doctype html><html lang='de'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
 <title>Login</title><link rel='stylesheet' href='{{ url_for("static", filename="style.css") }}'></head><body><main>
@@ -64,18 +65,21 @@ select.addEventListener('change',function(){localStorage.setItem(key,this.value)
 }());
 </script></body></html>"""
 
+
 PASSWORD_SCRIPT = """<script>async function protect(form){const field=form.password;const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(field.value));field.value=Array.from(new Uint8Array(bytes),byte=>byte.toString(16).padStart(2,'0')).join('');return true}</script>"""
 
-
 def connect():
-    """Open the SQLite database with named-column rows."""
+    """Open the SQLite database with named-column rows.
+
+    Returns:
+        sqlite3.Connection: A connection whose rows behave like dictionaries.
+    """
     connection = sqlite3.connect(DB_PATH)
     connection.row_factory = sqlite3.Row
     return connection
 
-
 def initialize_database():
-    """Create the only application table if it does not exist."""
+    """Create the users table if it does not already exist."""
     with connect() as connection:
         connection.execute("""CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY, email TEXT UNIQUE NOT NULL,
@@ -83,58 +87,98 @@ def initialize_database():
             last_login_at TEXT, totp_secret TEXT NOT NULL,
             reset_token_hash TEXT, reset_expires_at REAL)""")
 
-
 def wipe_database_on_start():
-    """Delete the local database before startup when testing is enabled."""
+    """Delete the local database on startup when testing is enabled."""
     if CONFIG.getboolean("app", "wipe_database_on_start", fallback=False) and os.path.exists(DB_PATH):
         os.remove(DB_PATH)
 
-
 def utc_now():
-    """Return the current UTC time as an ISO 8601 string."""
+    """Return the current UTC time as an ISO 8601 string.
+
+    Returns:
+        str: The current UTC timestamp.
+    """
     return datetime.now(timezone.utc).isoformat()
 
-
 def client_password(password):
-    """Create the password value sent from the browser to the server."""
+    """Create the password value sent from the browser to the server.
+
+    The browser hashes the password with SHA-256 before submitting it, so the
+    server never receives the raw password.
+
+    Args:
+        password (str): The raw password typed by the user.
+
+    Returns:
+        str: The SHA-256 hex digest of the password.
+    """
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
-
 def hash_value(value):
-    """Hash a value with a random salt and scrypt."""
+    """Hash a value with a random salt using scrypt.
+
+    Args:
+        value (str): The plain value to hash.
+
+    Returns:
+        str: Base64-encoded salt followed by the digest.
+    """
     salt = secrets.token_bytes(16)
     digest = hashlib.scrypt(value.encode(), salt=salt, n=2**14, r=8, p=1)
     return base64.b64encode(salt + digest).decode()
 
-
 def verify_value(value, encoded):
-    """Compare a value with a previously generated scrypt hash."""
+    """Compare a value with a previously generated scrypt hash.
+
+    Args:
+        value (str): The plain value to check.
+        encoded (str): The stored base64-encoded hash.
+
+    Returns:
+        bool: True if the value matches the stored hash.
+    """
     if not encoded:
         return False
     raw = base64.b64decode(encoded)
     actual = hashlib.scrypt(value.encode(), salt=raw[:16], n=2**14, r=8, p=1)
     return hmac.compare_digest(actual, raw[16:])
 
-
 def totp_code(secret, timestamp=None):
-    """Generate the six-digit RFC 6238-compatible TOTP code."""
+    """Generate the six-digit RFC 6238 compatible TOTP code.
+
+    Args:
+        secret (str): The base32-encoded TOTP secret.
+        timestamp (float, optional): Unix timestamp to use. Defaults to now.
+
+    Returns:
+        str: The six-digit TOTP code.
+    """
     counter = int((timestamp or time.time()) // 30).to_bytes(8, "big")
+    # Base32 decoding needs padding to a multiple of eight characters.
     key = base64.b32decode(secret + "=" * (-len(secret) % 8), casefold=True)
     digest = hmac.new(key, counter, hashlib.sha1).digest()
     offset = digest[-1] & 15
     number = (int.from_bytes(digest[offset:offset + 4], "big") & 0x7fffffff) % 1_000_000
     return f"{number:06d}"
 
-
 def send_mail(recipient, subject, text):
     """Send a real email through the configured SMTP server.
 
     SMTP settings are read from the ``[mail]`` section in config.ini.
+
+    Args:
+        recipient (str): The email recipient.
+        subject (str): The email subject.
+        text (str): The plain-text body.
+
+    Raises:
+        RuntimeError: If required mail settings are missing.
+        smtplib.SMTPException: If delivery fails.
     """
     required = ("host", "user", "password", "from")
     missing = [name for name in required if not CONFIG.get("mail", name, fallback="")]
     if missing:
-        raise RuntimeError("Fehlende Mail-Einstellungen in config.ini: " + ", ".join(missing))
+        raise RuntimeError("Missing mail settings in config.ini: " + ", ".join(missing))
     message = EmailMessage()
     message["From"] = CONFIG.get("mail", "from")
     message["To"] = recipient
@@ -149,45 +193,66 @@ def send_mail(recipient, subject, text):
         smtp.login(CONFIG.get("mail", "user"), CONFIG.get("mail", "password"))
         smtp.send_message(message)
 
-
 def page(body):
-    """Render a body fragment inside the shared application layout."""
+    """Render a body fragment inside the shared application layout.
+
+    Args:
+        body (str): The HTML body fragment.
+
+    Returns:
+        str: The rendered page.
+    """
     return render_template_string(PAGE, body=body, level=AUTH_LEVEL)
 
-
 def csrf_token():
-    """Return the CSRF token used by settings forms."""
+    """Return the CSRF token used by settings forms.
+
+    Returns:
+        str: The current session CSRF token.
+    """
     if "csrf_token" not in session:
         session["csrf_token"] = secrets.token_urlsafe(32)
     return session["csrf_token"]
 
-
 def save_auth_level(level):
-    """Save the selected security level in config.ini for future starts."""
+    """Save the selected security level in config.ini for future starts.
+
+    Args:
+        level (int): The security level to store.
+    """
     CONFIG.set("app", "auth_level", str(level))
     with open(CONFIG_PATH, "w", encoding="utf-8") as config_file:
         CONFIG.write(config_file)
 
-
 def finish_login(user_id):
-    """Turn a pending authentication into a 15-minute authenticated session."""
+    """Turn a pending authentication into a 15-minute authenticated session.
+
+    Args:
+        user_id (int): The authenticated user's id.
+    """
     session.clear()
     session["user_id"] = user_id
     session["authenticated_at"] = time.time()
     with connect() as connection:
         connection.execute("UPDATE users SET last_login_at=? WHERE id=?", (utc_now(), user_id))
 
-
 def protected(view):
-    """Protect a view and expire sessions after the configured time window."""
+    """Protect a view and expire sessions after the configured time window.
+
+    Args:
+        view (callable): The view function to wrap.
+
+    Returns:
+        callable: The wrapped view.
+    """
     @wraps(view)
     def wrapper(*args, **kwargs):
+        """Check the session and delegate to the wrapped view."""
         if "user_id" not in session or time.time() - session.get("authenticated_at", 0) > LOGIN_MINUTES * 60:
             session.clear()
             return redirect(url_for("login"))
         return view(*args, **kwargs)
     return wrapper
-
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -221,7 +286,6 @@ def login():
     body = """<form method='post' onsubmit='return protect(this)'><label>E-Mail<input type='email' name='email' required></label><label>Passwort<input type='password' name='password' required></label><button>Anmelden</button></form><p><a href='/register'>Konto anlegen</a> | <a href='/reset'>Passwort vergessen?</a></p>""" + PASSWORD_SCRIPT
     return page(body)
 
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Create an account with a client-derived password and TOTP secret."""
@@ -245,7 +309,6 @@ def register():
     body = """<h2>Konto anlegen</h2><form method='post' onsubmit='return protect(this)'><label>E-Mail<input type='email' name='email' required></label><label>Passwort<input type='password' name='password' minlength='8' required></label><button>Registrieren</button></form><p><a href='/'>Zur Anmeldung</a></p>""" + PASSWORD_SCRIPT
     return page(body)
 
-
 @app.route("/email-code", methods=["GET", "POST"])
 def email_code():
     """Verify the emailed code for security level 2."""
@@ -263,7 +326,6 @@ def email_code():
             return redirect(url_for("login"))
     return page("<h2>E-Mail bestätigen</h2><form method='post'><label>6-stelliger Code<input name='code' pattern='[0-9]{6}' required></label><button>Prüfen</button></form>")
 
-
 @app.route("/otp", methods=["GET", "POST"])
 def otp():
     """Verify the authenticator code and finish level 3 authentication."""
@@ -279,7 +341,6 @@ def otp():
     token = escape(user["totp_secret"]) if user else "nicht verfügbar"
     body = f"<h2>OTP Authenticator</h2><p class='small'>QR-Code mit deiner Authenticator-App scannen:</p><p><img src='{url_for('otp_qr')}' alt='QR-Code für den Authenticator' width='220' height='220'></p><p class='small'>Falls Scannen nicht funktioniert, Auth-Token manuell eingeben:</p><p><strong>{token}</strong></p><form method='post'><label>6-stelliger OTP<input name='code' pattern='[0-9]{{6}}' required></label><button>Einloggen</button></form>"
     return page(body)
-
 
 @app.get("/otp-qr")
 def otp_qr():
@@ -299,7 +360,6 @@ def otp_qr():
     output.seek(0)
     return app.response_class(output.getvalue(), mimetype="image/png")
 
-
 @app.route("/dashboard")
 @protected
 def dashboard():
@@ -308,7 +368,6 @@ def dashboard():
         user = connection.execute("SELECT email,last_login_at FROM users WHERE id=?", (session["user_id"],)).fetchone()
     body = f"<h2>Angemeldet</h2><p>{escape(user['email'])}</p><p class='small'>Letzter Login: {escape(user['last_login_at'])}</p><form method='get' action='/settings'><button type='submit'>Sicherheitsstufe ändern</button></form><p><a href='/logout'>Abmelden</a></p>"
     return page(body)
-
 
 @app.route("/settings", methods=["GET", "POST"])
 @protected
@@ -341,13 +400,11 @@ def settings():
     body = """<h2>Sicherheitsstufe</h2><form method='post'><input type='hidden' name='csrf_token' value='{}'><label>Login-Verfahren<select name='auth_level'><option value='1'{}>1: E-Mail und Passwort</option><option value='2'{}>2: zusätzlich E-Mail-Code</option><option value='3'{}>3: zusätzlich OTP-Authenticator</option></select></label><button>Speichern</button></form><hr><h2>Gespeicherte Daten löschen</h2><p class='small'>Dabei werden alle registrierten Konten, Passwort-Hashes, TOTP-Schlüssel und Passwort-Reset-Daten dauerhaft gelöscht.</p><form method='post' onsubmit="return confirm('Achtung: Wirklich alle gespeicherten Login-Daten löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.')"><input type='hidden' name='csrf_token' value='{}'><input type='hidden' name='action' value='delete_all_users'><button type='submit' class='danger-button'>Alle Login-Daten löschen</button></form><p><a href='/dashboard'>Zurück</a></p>""".format(csrf_token(), selected[1], selected[2], selected[3], csrf_token())
     return page(body)
 
-
 @app.get("/logout")
 def logout():
     """End the current session."""
     session.clear()
     return redirect(url_for("login"))
-
 
 @app.route("/reset", methods=["GET", "POST"])
 def reset():
@@ -368,7 +425,6 @@ def reset():
         flash("Wenn die E-Mail existiert, wurde ein Reset-Link versendet.")
     return page("<h2>Passwort zurücksetzen</h2><form method='post'><label>E-Mail<input type='email' name='email' required></label><button>Link anfordern</button></form>")
 
-
 @app.route("/reset-password", methods=["GET", "POST"])
 def reset_password():
     """Validate a reset token and save the new client-derived password."""
@@ -385,7 +441,6 @@ def reset_password():
         flash("Der Link ist ungültig oder das Passwort zu kurz.")
     body = "<h2>Neues Passwort</h2><form method='post' onsubmit='return protect(this)'><input type='hidden' name='token' value='" + str(escape(token)) + "'><label>Passwort<input type='password' name='password' minlength='8' required></label><button>Speichern</button></form>" + PASSWORD_SCRIPT
     return page(body)
-
 
 wipe_database_on_start()
 initialize_database()

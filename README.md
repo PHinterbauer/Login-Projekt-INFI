@@ -4,7 +4,7 @@ Eine einfache Login-Anwendung mit **Flask**, **PHP** und **SQLite**.
 
 Das Projekt enthält zwei getrennte Versionen:
 
-- **Python:** [`python_app.py`](python_app.py)
+- **Python:** [`app.py`](app.py)
 - **PHP:** [`php/`](php/)
 
 Beide Versionen bieten Registrierung, Login, Passwort-Reset und drei
@@ -45,7 +45,7 @@ Für die PHP-Version werden benötigt:
 ### 1. Projektordner öffnen
 
 Öffne die Eingabeaufforderung und wechsle in den Ordner, in dem
-`python_app.py` liegt. Beispiel:
+`app.py` liegt. Beispiel:
 
 ```cmd
 cd "C:\Pfad\zum\Gruber_Login"
@@ -90,7 +90,7 @@ Bild-Unterstützung für die OTP-Anmeldung.
 ### 5. Anwendung starten
 
 ```cmd
-python python_app.py
+python app.py
 ```
 
 Wenn der Start erfolgreich war, läuft der lokale Webserver auf Port 5000.
@@ -110,7 +110,7 @@ Anwendung auch direkt mit dem Python-Interpreter der virtuellen Umgebung
 gestartet werden:
 
 ```powershell
-.venv\Scripts\python.exe python_app.py
+.venv\Scripts\python.exe app.py
 ```
 
 ## Konfiguration
@@ -177,7 +177,7 @@ aus der Python-Version ist daher nicht automatisch in der PHP-Version vorhanden.
 
 | Datei/Ordner | Zweck |
 | --- | --- |
-| `python_app.py` | Flask-Anwendung |
+| `app.py` | Flask-Anwendung |
 | `php/` | PHP-Anwendung |
 | `static/style.css` | Designs der Python-Anwendung |
 | `requirements.txt` | Python-Abhängigkeiten |

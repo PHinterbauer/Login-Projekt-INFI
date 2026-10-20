@@ -2,14 +2,14 @@
 require __DIR__ . '/config.php';
 require_login();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	check_csrf();
-	$level = (int)($_POST['auth_level'] ?? 0);
-	if (in_array($level, [1, 2, 3], true) && save_auth_level($level)) {
-		flash('Sicherheitsstufe '.$level.' ist aktiv.');
-	} else {
-		flash('Die Sicherheitsstufe konnte nicht gespeichert werden.');
-	}
-	header('Location: dashboard.php'); exit;
+    check_csrf();
+    $level = (int)($_POST['auth_level'] ?? 0);
+    if (in_array($level, [1, 2, 3], true) && save_auth_level($level)) {
+        flash('Sicherheitsstufe '.$level.' ist aktiv.');
+    } else {
+        flash('Die Sicherheitsstufe konnte nicht gespeichert werden.');
+    }
+    header('Location: dashboard.php'); exit;
 }
 $stmt = $db->prepare('SELECT email,last_login_at FROM users WHERE id=?');
 $stmt->execute([$_SESSION['user_id']]);
