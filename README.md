@@ -1,17 +1,18 @@
 # Login-Projekt
 
-Eine einfache Login-Anwendung mit **Flask**, **PHP** und **SQLite**.
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.x-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![License](https://img.shields.io/badge/License-Educational-lightgrey)](#lizenz-und-projektstatus)
 
-Das Projekt enthält zwei getrennte Versionen:
+Eine einfache, aber vollständige Login-Anwendung mit **Flask**, **PHP** und **SQLite**.
+Das Projekt enthält zwei eigenständige Versionen (Python und PHP), die Registrierung,
+Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten.
 
-- **Python:** [`app.py`](app.py)
-- **PHP:** [`php/`](php/)
+---
 
-Beide Versionen bieten Registrierung, Login, Passwort-Reset und drei
-Sicherheitsstufen. Die Python- und PHP-Version sind eigenständige
-Anwendungen und verwenden jeweils ihre eigene Datenbank.
-
-## Funktionen
+## ✨ Funktionen
 
 | Stufe | Anmeldung |
 | --- | --- |
@@ -21,31 +22,60 @@ Anwendungen und verwenden jeweils ihre eigene Datenbank.
 
 Weitere Funktionen:
 
-- Sitzungen laufen nach 15 Minuten ab.
-- E-Mail-Codes sind 5 Minuten gültig.
-- TOTP-Codes sind 30 Sekunden gültig.
-- Passwort-Reset-Links sind 15 Minuten gültig.
-- Die Login-Seite besitzt mehrere Designs, unter anderem **Bier** und **Käse**.
+- ⏱️ Sitzungen laufen nach **15 Minuten** ab.
+- 📧 E-Mail-Codes sind **5 Minuten** gültig.
+- 🔐 TOTP-Codes sind **30 Sekunden** gültig.
+- 🔗 Passwort-Reset-Links sind **15 Minuten** gültig.
+- 🎨 Die Login-Seite bietet mehrere Designs (u. a. **Bier** und **Käse**).
+- 🗑️ Alle gespeicherten Login-Daten können im Dashboard gelöscht werden.
 
-## Voraussetzungen
+---
 
-Für die Python-Version werden benötigt:
+## 🧰 Voraussetzungen
+
+**Python-Version**
 
 - Windows mit Python 3.11 oder neuer
-- ein Terminal wie Eingabeaufforderung oder PowerShell
-- eine Internetverbindung für die einmalige Installation der Pakete
+- Terminal (Eingabeaufforderung oder PowerShell)
+- Internetverbindung für die einmalige Installation der Pakete
 
-Für die PHP-Version werden benötigt:
+**PHP-Version**
 
 - XAMPP mit Apache
 - PHP mit den Erweiterungen `pdo_sqlite` und `sqlite3`
 
-## Python-Version starten
+---
+
+## 📁 Projektstruktur
+
+```
+Gruber_Login/
+├── app.py                  # Flask-Anwendung
+├── requirements.txt        # Python-Abhängigkeiten
+├── config.example.ini      # Vorlage für die Konfiguration
+├── static/
+│   └── style.css           # Designs der Python-Anwendung
+├── php/                    # PHP-Anwendung (XAMPP)
+│   ├── config.php
+│   ├── index.php
+│   ├── register.php
+│   ├── dashboard.php
+│   ├── email-code.php
+│   ├── otp.php
+│   ├── reset.php
+│   ├── reset-password.php
+│   ├── logout.php
+│   └── .htaccess
+└── README.md
+```
+
+> `config.ini`, `login.sqlite3` und der Ordner `.venv/` werden nicht versioniert.
+
+---
+
+## 🐍 Python-Version starten
 
 ### 1. Projektordner öffnen
-
-Öffne die Eingabeaufforderung und wechsle in den Ordner, in dem
-`app.py` liegt. Beispiel:
 
 ```cmd
 cd "C:\Pfad\zum\Gruber_Login"
@@ -53,30 +83,23 @@ cd "C:\Pfad\zum\Gruber_Login"
 
 ### 2. Virtuelle Umgebung erstellen
 
-Eine virtuelle Umgebung hält die Python-Pakete dieses Projekts getrennt von
-anderen Python-Projekten. Sie muss normalerweise nur einmal erstellt werden:
-
 ```cmd
 py -m venv .venv
 ```
 
 ### 3. Umgebung aktivieren
 
-In der Windows-Eingabeaufforderung:
+Eingabeaufforderung:
 
 ```cmd
 .venv\Scripts\activate
 ```
 
-In PowerShell:
+PowerShell:
 
 ```powershell
 .venv\Scripts\Activate.ps1
 ```
-
-Nach erfolgreicher Aktivierung steht meist `(.venv)` am Anfang der
-Terminalzeile. Dadurch weißt du, dass die folgenden Pakete in der richtigen
-Umgebung installiert werden.
 
 ### 4. Abhängigkeiten installieren
 
@@ -84,40 +107,34 @@ Umgebung installiert werden.
 python -m pip install -r requirements.txt
 ```
 
-`requirements.txt` installiert Flask für den Webserver sowie QR-Code- und
-Bild-Unterstützung für die OTP-Anmeldung.
-
 ### 5. Anwendung starten
 
 ```cmd
 python app.py
 ```
 
-Wenn der Start erfolgreich war, läuft der lokale Webserver auf Port 5000.
-Öffne danach im Browser:
+Der lokale Webserver läuft anschließend auf Port `5000`. Öffne im Browser:
 
 <http://127.0.0.1:5000>
 
-Zum Beenden des Servers drückst du im Terminal `Strg+C`. Die virtuelle
-Umgebung kann anschließend mit folgendem Befehl verlassen werden:
+Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit:
 
 ```cmd
 deactivate
 ```
 
-Falls PowerShell das Aktivieren aus Sicherheitsgründen blockiert, kann die
-Anwendung auch direkt mit dem Python-Interpreter der virtuellen Umgebung
-gestartet werden:
+> Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
+>
+> ```powershell
+> .venv\Scripts\python.exe app.py
+> ```
 
-```powershell
-.venv\Scripts\python.exe app.py
-```
+---
 
-## Konfiguration
+## ⚙️ Konfiguration
 
-Die Datei `config.ini` enthält lokale Einstellungen wie den Flask-Schlüssel
-und die SMTP-Zugangsdaten. Sie wird nicht in Git gespeichert. Erstelle sie
-einmalig aus der Vorlage:
+Die Datei `config.ini` enthält lokale Einstellungen wie den Flask-Schlüssel und die
+SMTP-Zugangsdaten. Sie wird nicht in Git gespeichert. Erstelle sie einmalig aus der Vorlage:
 
 ```cmd
 copy config.example.ini config.ini
@@ -151,7 +168,9 @@ kann im Abschnitt `[app]` geändert werden. Für lokale Tests kann
 Datenbank bei jedem Start gelöscht. Diese Einstellung darf im normalen
 Betrieb nicht aktiviert sein.
 
-## PHP-Version mit XAMPP
+---
+
+## 🐘 PHP-Version mit XAMPP
 
 1. Kopiere das Projekt nach `C:\xampp\htdocs\login`.
 2. Starte Apache im XAMPP Control Panel.
@@ -163,28 +182,20 @@ Betrieb nicht aktiviert sein.
 Die Python- und PHP-Version verwenden getrennte SQLite-Datenbanken. Ein Konto
 aus der Python-Version ist daher nicht automatisch in der PHP-Version vorhanden.
 
-## Empfohlener Testablauf
+---
+
+## ✅ Empfohlener Testablauf
 
 1. Starte die Python-Version mit Sicherheitsstufe 1.
 2. Lege ein Konto an und teste Login und Logout.
 3. Stelle im Dashboard Sicherheitsstufe 2 ein und prüfe den E-Mail-Code.
 4. Teste die Passwort-Zurücksetzung mit einem gültigen SMTP-Konto.
-5. Verwende für Sicherheitsstufe 3 eine Authenticator-App und teste den
-   angezeigten TOTP-Schlüssel.
+5. Verwende für Sicherheitsstufe 3 eine Authenticator-App und teste den angezeigten TOTP-Schlüssel.
 6. Prüfe, dass eine Sitzung nach Ablauf des Zeitlimits nicht mehr gültig ist.
 
-## Dateien
+---
 
-| Datei/Ordner | Zweck |
-| --- | --- |
-| `app.py` | Flask-Anwendung |
-| `php/` | PHP-Anwendung |
-| `static/style.css` | Designs der Python-Anwendung |
-| `requirements.txt` | Python-Abhängigkeiten |
-| `config.example.ini` | Vorlage für die Konfiguration |
-| `login.sqlite3` | Python-Datenbank |
-
-## Sicherheit
+## 🔒 Sicherheit
 
 Die Anwendung speichert keine Klartextpasswörter. Passwörter werden vor der
 Speicherung gehasht. E-Mail-Codes, TOTP-Codes und Reset-Links sind zeitlich
@@ -192,7 +203,9 @@ begrenzt. Für den produktiven Einsatz sollten zusätzlich HTTPS, Rate-Limiting,
 sichere Cookie-Einstellungen und eine geschützte Serverkonfiguration verwendet
 werden.
 
-## Lizenz und Projektstatus
+---
+
+## 📄 Lizenz und Projektstatus
 
 Dieses Projekt ist eine Schul-/Lernanwendung. Vor einem produktiven Einsatz
 sollten Konfiguration, Sicherheit und Fehlerbehandlung nochmals geprüft werden.
