@@ -1,26 +1,47 @@
-# Login-Projekt
+<p align="center">
+  <img src="https://img.shields.io/badge/Login--Projekt-Secure%20Auth-1464a0?style=for-the-badge" alt="Login-Projekt" />
+</p>
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-3.x-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white)](https://www.php.net/)
-[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![License](https://img.shields.io/badge/License-Educational-lightgrey)](#lizenz-und-projektstatus)
+<h1 align="center">🔐 Login-Projekt</h1>
 
-Eine einfache, aber vollständige Login-Anwendung mit **Flask**, **PHP** und **SQLite**.
-Das Projekt enthält zwei eigenständige Versionen (Python und PHP), die Registrierung,
-Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten.
+<p align="center">
+  <strong>Eine elegante, mehrstufige Login-Anwendung mit Flask, PHP und SQLite.</strong>
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" /></a>
+  <a href="https://flask.palletsprojects.com/"><img src="https://img.shields.io/badge/Flask-3.x-000000?style=flat-square&logo=flask&logoColor=white" alt="Flask" /></a>
+  <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-8.x-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP" /></a>
+  <a href="https://www.sqlite.org/"><img src="https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite" /></a>
+  <a href="#lizenz-und-projektstatus"><img src="https://img.shields.io/badge/License-Educational-lightgrey?style=flat-square" alt="License" /></a>
+</p>
+
+<p align="center">
+  <a href="#-funktionen">Funktionen</a> •
+  <a href="#-voraussetzungen">Voraussetzungen</a> •
+  <a href="#-projektstruktur">Struktur</a> •
+  <a href="#-python-version-starten">Python</a> •
+  <a href="#-php-version-mit-xampp">PHP</a> •
+  <a href="#-konfiguration">Konfiguration</a> •
+  <a href="#-sicherheit">Sicherheit</a>
+</p>
 
 ---
 
 ## ✨ Funktionen
 
-| Stufe | Anmeldung |
-| --- | --- |
-| 1 | E-Mail-Adresse und Passwort |
-| 2 | Zusätzlich ein Code per E-Mail |
-| 3 | Zusätzlich ein TOTP-Code aus einer Authenticator-App |
+Das Projekt enthält zwei eigenständige Versionen (**Python/Flask** und **PHP**), die
+Registrierung, Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten.
 
-Weitere Funktionen:
+### Sicherheitsstufen
+
+| Stufe | Anmeldung |
+| :---: | --- |
+| 🟢 1 | E-Mail-Adresse und Passwort |
+| 🟡 2 | Zusätzlich ein Code per E-Mail |
+| 🔴 3 | Zusätzlich ein TOTP-Code aus einer Authenticator-App |
+
+### Weitere Highlights
 
 - ⏱️ Sitzungen laufen nach **15 Minuten** ab.
 - 📧 E-Mail-Codes sind **5 Minuten** gültig.
@@ -28,21 +49,33 @@ Weitere Funktionen:
 - 🔗 Passwort-Reset-Links sind **15 Minuten** gültig.
 - 🎨 Die Login-Seite bietet mehrere Designs (u. a. **Bier** und **Käse**).
 - 🗑️ Alle gespeicherten Login-Daten können im Dashboard gelöscht werden.
+- 🔒 Passwörter werden niemals im Klartext gespeichert.
 
 ---
 
 ## 🧰 Voraussetzungen
 
-**Python-Version**
+<table>
+<tr>
+<td width="50%">
+
+**🐍 Python-Version**
 
 - Windows mit Python 3.11 oder neuer
 - Terminal (Eingabeaufforderung oder PowerShell)
-- Internetverbindung für die einmalige Installation der Pakete
+- Internetverbindung für die einmalige Installation
 
-**PHP-Version**
+</td>
+<td width="50%">
+
+**🐘 PHP-Version**
 
 - XAMPP mit Apache
-- PHP mit den Erweiterungen `pdo_sqlite` und `sqlite3`
+- PHP mit `pdo_sqlite` und `sqlite3`
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -50,12 +83,12 @@ Weitere Funktionen:
 
 ```
 Gruber_Login/
-├── app.py                  # Flask-Anwendung
-├── requirements.txt        # Python-Abhängigkeiten
-├── config.example.ini      # Vorlage für die Konfiguration
-├── static/
-│   └── style.css           # Designs der Python-Anwendung
-├── php/                    # PHP-Anwendung (XAMPP)
+├── 🐍 app.py                  # Flask-Anwendung
+├── 📦 requirements.txt        # Python-Abhängigkeiten
+├── ⚙️ config.example.ini      # Vorlage für die Konfiguration
+├── 🎨 static/
+│   └── style.css              # Designs der Python-Anwendung
+├── 🐘 php/                    # PHP-Anwendung (XAMPP)
 │   ├── config.php
 │   ├── index.php
 │   ├── register.php
@@ -66,7 +99,7 @@ Gruber_Login/
 │   ├── reset-password.php
 │   ├── logout.php
 │   └── .htaccess
-└── README.md
+└── 📖 README.md
 ```
 
 > `config.ini`, `login.sqlite3` und der Ordner `.venv/` werden nicht versioniert.
@@ -89,15 +122,11 @@ py -m venv .venv
 
 ### 3. Umgebung aktivieren
 
-Eingabeaufforderung:
-
 ```cmd
+:: Eingabeaufforderung
 .venv\Scripts\activate
-```
 
-PowerShell:
-
-```powershell
+:: PowerShell
 .venv\Scripts\Activate.ps1
 ```
 
@@ -115,15 +144,11 @@ python app.py
 
 Der lokale Webserver läuft anschließend auf Port `5000`. Öffne im Browser:
 
-<http://127.0.0.1:5000>
+<p align="center"><a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a></p>
 
-Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit:
+Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit `deactivate`.
 
-```cmd
-deactivate
-```
-
-> Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
+> 💡 Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
 >
 > ```powershell
 > .venv\Scripts\python.exe app.py
@@ -159,8 +184,8 @@ from = deine-adresse@example.com
 Für Sicherheitsstufe 2 und Passwort-Reset werden gültige SMTP-Daten benötigt.
 Bei vielen Mail-Anbietern ist dafür ein App-Passwort erforderlich.
 
-**Wichtig:** `config.ini`, SMTP-Passwörter und geheime Schlüssel dürfen nicht
-veröffentlicht oder in Git eingecheckt werden.
+> ⚠️ **Wichtig:** `config.ini`, SMTP-Passwörter und geheime Schlüssel dürfen nicht
+> veröffentlicht oder in Git eingecheckt werden.
 
 Die Anwendung startet standardmäßig unter `http://127.0.0.1:5000`. Der Port
 kann im Abschnitt `[app]` geändert werden. Für lokale Tests kann
@@ -179,8 +204,8 @@ Betrieb nicht aktiviert sein.
 5. Konfiguriere den Mail-Versand über XAMPP/Sendmail.
 6. Öffne <http://127.0.0.1/login/php/>.
 
-Die Python- und PHP-Version verwenden getrennte SQLite-Datenbanken. Ein Konto
-aus der Python-Version ist daher nicht automatisch in der PHP-Version vorhanden.
+> ℹ️ Die Python- und PHP-Version verwenden getrennte SQLite-Datenbanken. Ein Konto
+> aus der Python-Version ist daher nicht automatisch in der PHP-Version vorhanden.
 
 ---
 
