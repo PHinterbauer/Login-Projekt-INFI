@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/Login--Projekt-Secure%20Auth-1464a0?style=for-the-badge" alt="Login-Projekt" />
 </p>
 
-<h1 align="center">🔐 Login-Projekt</h1>
+<h1 align="center">Login-Projekt</h1>
 
 <p align="center">
   <strong>Eine elegante, mehrstufige Login-Anwendung mit Flask, PHP und SQLite.</strong>
@@ -17,78 +17,67 @@
 </p>
 
 <p align="center">
-  <a href="#-funktionen">Funktionen</a> •
-  <a href="#-voraussetzungen">Voraussetzungen</a> •
-  <a href="#-projektstruktur">Struktur</a> •
-  <a href="#-python-version-starten">Python</a> •
-  <a href="#-php-version-mit-xampp">PHP</a> •
-  <a href="#-konfiguration">Konfiguration</a> •
-  <a href="#-sicherheit">Sicherheit</a>
+  <a href="#funktionen">Funktionen</a> •
+  <a href="#voraussetzungen">Voraussetzungen</a> •
+  <a href="#projektstruktur">Struktur</a> •
+  <a href="#python-version-starten">Python</a> •
+  <a href="#php-version-mit-xampp">PHP</a> •
+  <a href="#konfiguration">Konfiguration</a> •
+  <a href="#sicherheit">Sicherheit</a>
 </p>
 
 ---
 
-## ✨ Funktionen
+## Funktionen
 
-Das Projekt enthält zwei eigenständige Versionen (**Python/Flask** und **PHP**), die
+Das Projekt enthält zwei eigenständige Versionen (Python/Flask und PHP), die
 Registrierung, Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten.
 
 ### Sicherheitsstufen
 
 | Stufe | Anmeldung |
 | :---: | --- |
-| 🟢 1 | E-Mail-Adresse und Passwort |
-| 🟡 2 | Zusätzlich ein Code per E-Mail |
-| 🔴 3 | Zusätzlich ein TOTP-Code aus einer Authenticator-App |
+| 1 | E-Mail-Adresse und Passwort |
+| 2 | Zusätzlich ein Code per E-Mail |
+| 3 | Zusätzlich ein TOTP-Code aus einer Authenticator-App |
 
 ### Weitere Highlights
 
-- ⏱️ Sitzungen laufen nach **15 Minuten** ab.
-- 📧 E-Mail-Codes sind **5 Minuten** gültig.
-- 🔐 TOTP-Codes sind **30 Sekunden** gültig.
-- 🔗 Passwort-Reset-Links sind **15 Minuten** gültig.
-- 🎨 Die Login-Seite bietet mehrere Designs (u. a. **Bier** und **Käse**).
-- 🗑️ Alle gespeicherten Login-Daten können im Dashboard gelöscht werden.
-- 🔒 Passwörter werden niemals im Klartext gespeichert.
+- Sitzungen laufen nach **15 Minuten** ab.
+- E-Mail-Codes sind **5 Minuten** gültig.
+- TOTP-Codes sind **30 Sekunden** gültig.
+- Passwort-Reset-Links sind **15 Minuten** gültig.
+- Die Login-Seite bietet mehrere Designs (u. a. Bier und Käse).
+- Alle gespeicherten Login-Daten können im Dashboard gelöscht werden.
+- Passwörter werden niemals im Klartext gespeichert.
 
 ---
 
-## 🧰 Voraussetzungen
+## Voraussetzungen
 
-<table>
-<tr>
-<td width="50%">
-
-**🐍 Python-Version**
+**Python-Version**
 
 - Windows mit Python 3.11 oder neuer
 - Terminal (Eingabeaufforderung oder PowerShell)
 - Internetverbindung für die einmalige Installation
 
-</td>
-<td width="50%">
-
-**🐘 PHP-Version**
+**PHP-Version**
 
 - XAMPP mit Apache
 - PHP mit `pdo_sqlite` und `sqlite3`
 
-</td>
-</tr>
-</table>
-
 ---
 
-## 📁 Projektstruktur
+## Projektstruktur
 
 ```
 Gruber_Login/
-├── 🐍 app.py                  # Flask-Anwendung
-├── 📦 requirements.txt        # Python-Abhängigkeiten
-├── ⚙️ config.example.ini      # Vorlage für die Konfiguration
-├── 🎨 static/
-│   └── style.css              # Designs der Python-Anwendung
-├── 🐘 php/                    # PHP-Anwendung (XAMPP)
+├── app.py                  # Flask-Anwendung
+├── requirements.txt        # Python-Abhängigkeiten
+├── config.example.ini      # Vorlage für die Konfiguration
+├── static/
+│   └── style.css           # Designs der Python-Anwendung
+├── php/                    # PHP-Anwendung (XAMPP)
 │   ├── config.php
 │   ├── index.php
 │   ├── register.php
@@ -99,14 +88,14 @@ Gruber_Login/
 │   ├── reset-password.php
 │   ├── logout.php
 │   └── .htaccess
-└── 📖 README.md
+└── README.md
 ```
 
 > `config.ini`, `login.sqlite3` und der Ordner `.venv/` werden nicht versioniert.
 
 ---
 
-## 🐍 Python-Version starten
+## Python-Version starten
 
 ### 1. Projektordner öffnen
 
@@ -144,11 +133,11 @@ python app.py
 
 Der lokale Webserver läuft anschließend auf Port `5000`. Öffne im Browser:
 
-<p align="center"><a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a></p>
+http://127.0.0.1:5000
 
 Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit `deactivate`.
 
-> 💡 Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
+> Hinweis: Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
 >
 > ```powershell
 > .venv\Scripts\python.exe app.py
@@ -156,7 +145,7 @@ Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit `deactivat
 
 ---
 
-## ⚙️ Konfiguration
+## Konfiguration
 
 Die Datei `config.ini` enthält lokale Einstellungen wie den Flask-Schlüssel und die
 SMTP-Zugangsdaten. Sie wird nicht in Git gespeichert. Erstelle sie einmalig aus der Vorlage:
@@ -184,7 +173,7 @@ from = deine-adresse@example.com
 Für Sicherheitsstufe 2 und Passwort-Reset werden gültige SMTP-Daten benötigt.
 Bei vielen Mail-Anbietern ist dafür ein App-Passwort erforderlich.
 
-> ⚠️ **Wichtig:** `config.ini`, SMTP-Passwörter und geheime Schlüssel dürfen nicht
+> Wichtig: `config.ini`, SMTP-Passwörter und geheime Schlüssel dürfen nicht
 > veröffentlicht oder in Git eingecheckt werden.
 
 Die Anwendung startet standardmäßig unter `http://127.0.0.1:5000`. Der Port
@@ -195,21 +184,21 @@ Betrieb nicht aktiviert sein.
 
 ---
 
-## 🐘 PHP-Version mit XAMPP
+## PHP-Version mit XAMPP
 
 1. Kopiere das Projekt nach `C:\xampp\htdocs\login`.
 2. Starte Apache im XAMPP Control Panel.
 3. Aktiviere in `php.ini` die Erweiterungen `pdo_sqlite` und `sqlite3`.
 4. Starte Apache nach einer Änderung an `php.ini` neu.
 5. Konfiguriere den Mail-Versand über XAMPP/Sendmail.
-6. Öffne <http://127.0.0.1/login/php/>.
+6. Öffne http://127.0.0.1/login/php/.
 
-> ℹ️ Die Python- und PHP-Version verwenden getrennte SQLite-Datenbanken. Ein Konto
+> Hinweis: Die Python- und PHP-Version verwenden getrennte SQLite-Datenbanken. Ein Konto
 > aus der Python-Version ist daher nicht automatisch in der PHP-Version vorhanden.
 
 ---
 
-## ✅ Empfohlener Testablauf
+## Empfohlener Testablauf
 
 1. Starte die Python-Version mit Sicherheitsstufe 1.
 2. Lege ein Konto an und teste Login und Logout.
@@ -220,7 +209,7 @@ Betrieb nicht aktiviert sein.
 
 ---
 
-## 🔒 Sicherheit
+## Sicherheit
 
 Die Anwendung speichert keine Klartextpasswörter. Passwörter werden vor der
 Speicherung gehasht. E-Mail-Codes, TOTP-Codes und Reset-Links sind zeitlich
@@ -230,7 +219,7 @@ werden.
 
 ---
 
-## 📄 Lizenz und Projektstatus
+## Lizenz und Projektstatus
 
 Dieses Projekt ist eine Schul-/Lernanwendung. Vor einem produktiven Einsatz
 sollten Konfiguration, Sicherheit und Fehlerbehandlung nochmals geprüft werden.
