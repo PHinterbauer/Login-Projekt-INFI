@@ -9,7 +9,10 @@
 </p>
 
 <p align="center">
-  <strong>Eine elegante, mehrstufige Login-Anwendung mit Flask, PHP und SQLite.</strong>
+  <strong>Eine elegante, mehrstufige Login-Anwendung mit Flask, PHP und SQLite.</strong><br />
+  Das Projekt kombiniert eine moderne Python-Webanwendung mit einer eigenständigen PHP-Version und
+  bietet Registrierung, sichere Authentifizierung, Passwort-Reset sowie drei wählbare
+  Sicherheitsstufen mit E-Mail- und TOTP-Zweifaktor-Authentifizierung.
 </p>
 
 <p align="center">
@@ -24,9 +27,9 @@
   <a href="#funktionen">Funktionen</a> •
   <a href="#voraussetzungen">Voraussetzungen</a> •
   <a href="#projektstruktur">Struktur</a> •
+  <a href="#konfiguration">Konfiguration</a> •
   <a href="#python-version-starten">Python</a> •
   <a href="#php-version-mit-xampp">PHP</a> •
-  <a href="#konfiguration">Konfiguration</a> •
   <a href="#sicherheit">Sicherheit</a>
 </p>
 
@@ -51,7 +54,7 @@ Registrierung, Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten
 - E-Mail-Codes sind **5 Minuten** gültig.
 - TOTP-Codes sind **30 Sekunden** gültig.
 - Passwort-Reset-Links sind **15 Minuten** gültig.
-- Die Login-Seite bietet mehrere Designs (u. a. Bier und Käse).
+- Die Login-Seite bietet mehrere Designs.
 - Alle gespeicherten Login-Daten können im Dashboard gelöscht werden.
 - Passwörter werden niemals im Klartext gespeichert.
 
@@ -99,56 +102,6 @@ Login-Projekt-INFI/
 ```
 
 > `config.ini`, `login.sqlite3` und der Ordner `.venv/` werden nicht versioniert.
-
----
-
-## Python-Version starten
-
-### 1. Projektordner öffnen
-
-```cmd
-cd "C:\Pfad\zum\Login-Projekt-INFI"
-```
-
-### 2. Virtuelle Umgebung erstellen
-
-```cmd
-py -m venv .venv
-```
-
-### 3. Umgebung aktivieren
-
-```cmd
-:: Eingabeaufforderung
-.venv\Scripts\activate
-
-:: PowerShell
-.venv\Scripts\Activate.ps1
-```
-
-### 4. Abhängigkeiten installieren
-
-```cmd
-python -m pip install -r requirements.txt
-```
-
-### 5. Anwendung starten
-
-```cmd
-python app.py
-```
-
-Der lokale Webserver läuft anschließend auf Port `5000`. Öffne im Browser:
-
-http://127.0.0.1:5000
-
-Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit `deactivate`.
-
-> Hinweis: Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
->
-> ```powershell
-> .venv\Scripts\python.exe app.py
-> ```
 
 ---
 
@@ -209,6 +162,56 @@ kann im Abschnitt `[app]` geändert werden. Für lokale Tests kann
 `wipe_database_on_start = true` verwendet werden; dadurch wird die Python-
 Datenbank bei jedem Start gelöscht. Diese Einstellung darf im normalen
 Betrieb nicht aktiviert sein.
+
+---
+
+## Python-Version starten
+
+### 1. Projektordner öffnen
+
+```cmd
+cd "C:\Pfad\zum\Login-Projekt-INFI"
+```
+
+### 2. Virtuelle Umgebung erstellen
+
+```cmd
+py -m venv .venv
+```
+
+### 3. Umgebung aktivieren
+
+```cmd
+:: Eingabeaufforderung
+.venv\Scripts\activate
+
+:: PowerShell
+.venv\Scripts\Activate.ps1
+```
+
+### 4. Abhängigkeiten installieren
+
+```cmd
+python -m pip install -r requirements.txt
+```
+
+### 5. Anwendung starten
+
+```cmd
+python app.py
+```
+
+Der lokale Webserver läuft anschließend auf Port `5000`. Öffne im Browser:
+
+http://127.0.0.1:5000
+
+Zum Beenden drücke `Strg+C`. Die virtuelle Umgebung verlässt du mit `deactivate`.
+
+> Hinweis: Falls PowerShell das Aktivieren blockiert, starte die App direkt mit dem Interpreter der virtuellen Umgebung:
+>
+> ```powershell
+> .venv\Scripts\python.exe app.py
+> ```
 
 ---
 
