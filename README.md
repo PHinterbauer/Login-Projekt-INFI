@@ -78,7 +78,7 @@ Registrierung, Login, Passwort-Reset und drei wählbare Sicherheitsstufen bieten
 ## Projektstruktur
 
 ```
-Gruber_Login/
+Login-Projekt-INFI/
 ├── app.py                  # Flask-Anwendung
 ├── requirements.txt        # Python-Abhängigkeiten
 ├── config.example.ini      # Vorlage für die Konfiguration
@@ -107,7 +107,7 @@ Gruber_Login/
 ### 1. Projektordner öffnen
 
 ```cmd
-cd "C:\Pfad\zum\Gruber_Login"
+cd "C:\Pfad\zum\Login-Projekt-INFI"
 ```
 
 ### 2. Virtuelle Umgebung erstellen
